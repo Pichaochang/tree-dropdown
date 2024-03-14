@@ -14,7 +14,7 @@ const TreeDropdown: React.FC<TreeDropdownProps> = ({ data, onSelect }) => {
 
   const handleSelect = (item: TreeItem) => {
     console.log('handleSelect', item)
-    const index = selectedItems.findIndex((selectedItem) => selectedItem.value === item.value);
+    const index = selectedItems.findIndex((selectedItem) => selectedItem.id === item.id);
     if (index !== -1) {
       const updatedItems = [...selectedItems];
       updatedItems.splice(index, 1);
@@ -32,9 +32,9 @@ const TreeDropdown: React.FC<TreeDropdownProps> = ({ data, onSelect }) => {
 
   const filteredData = data.filter((item) => {
     if (!filterText) return true;
-    if (item.label.toLowerCase().includes(filterText.toLowerCase())) return true;
+    if (item.name.toLowerCase().includes(filterText.toLowerCase())) return true;
     if (item.children) {
-      const filteredChildren = item.children.filter((child) => child.label.toLowerCase().includes(filterText.toLowerCase()));
+      const filteredChildren = item.children.filter((child) => child.name.toLowerCase().includes(filterText.toLowerCase()));
       return filteredChildren.length > 0;
     }
     return false;
@@ -43,14 +43,14 @@ const TreeDropdown: React.FC<TreeDropdownProps> = ({ data, onSelect }) => {
   return (
     <div className="tree-dropdown">
       <div className="selected-item" onClick={toggleDropdown}>
-        {selectedItems.length > 0 ? selectedItems.map((item) => item.label).join(', ') : 'Select...'}
+        {selectedItems.length > 0 ? selectedItems.map((item) => item.name).join(', ') : 'Select...'}
         <span className={`arrow ${isOpen ? 'open' : ''}`}></span>
       </div>
       {isOpen && (
         <div className="dropdown-container">
           <ul className="dropdown-list">
             {filteredData.map((item) => (
-              <TreeNode key={item.value} item={item} isSelected={selectedItems.some((selectedItem) => selectedItem.value === item.value)} onSelect={handleSelect} />
+              <TreeNode key={item.id} item={item} isSelected={selectedItems.some((selectedItem) => selectedItem.id === item.id)} onSelect={handleSelect} />
             ))}
           </ul>
           <button className="confirm-button" onClick={handleConfirm}>Confirm</button>

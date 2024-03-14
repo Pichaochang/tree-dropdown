@@ -11,11 +11,11 @@ const TreeNode: React.FC<TreeNodeProps> = ({ item, isSelected, onSelect }) => {
 
   return (
     <li onClick={handleClick} className={isSelected ? 'selected' : ''}>
-      {item.label}
+      {item.name}
       {item.children && (
         <ul>
           {item.children.map((child) => (
-            <TreeNode key={child.value} item={child} isSelected={isSelected} onSelect={onSelect} />
+            <TreeNode key={child.id} item={child} isSelected={isSelected} onSelect={onSelect} />
           ))}
         </ul>
       )}

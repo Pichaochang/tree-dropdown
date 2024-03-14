@@ -1,6 +1,6 @@
 export interface TreeItem {
-  label: string;
-  value: string;
+  name: string;
+  id: string;
   children?: TreeItem[];
 }
 
