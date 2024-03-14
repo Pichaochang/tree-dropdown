@@ -1,35 +1,50 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import TreeDropdown from './componenets/TreeDropdown'
+import { TreeItem } from './interface.type'
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [selectedItem, setSelectedItem] = useState([]);
+
+  const data = [
+    {
+      label: 'Parent 1',
+      value: 'parent1',
+      children: [
+        { label: 'Child 1', value: 'child1' },
+        { label: 'Child 2', value: 'child2' }
+      ]
+    },
+    {
+      label: 'Parent 2',
+      value: 'parent2',
+      children: [
+        { label: 'Child 3', value: 'child3', children: [{ label: 'Grandchild 1', value: 'grandchild1' }] },
+        { label: 'Child 4', value: 'child4', children: [{ label: 'Grandchild 2', value: 'grandchild2' }] }
+      ]
+    }
+  ];
+
+  const handleSelect = (item:TreeItem) => {
+    setSelectedItem(item);
+    console.log(selectedItem)
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app">
+      <h1>Tree Dropdown Example</h1>
+      <TreeDropdown data={data} onSelect={handleSelect} />
+      <h2>Selected item: {selectedItem ? 
+      <>
+      {selectedItem&& selectedItem.length && selectedItem.map(
+        function(item) {
+          return <span>{item.label}</span>
+        }
+      )}
+      </>
+      : 'None'}</h2>
+    </div>
+  );
 }
 
 export default App
